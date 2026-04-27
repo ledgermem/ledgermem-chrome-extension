@@ -1,0 +1,17 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "types": ["chrome"]
+  },
+  "include": ["entrypoints/**/*", "src/**/*", "wxt.config.ts"],
+  "exclude": ["node_modules", ".output", ".wxt", "**/*.test.ts"]
+}
