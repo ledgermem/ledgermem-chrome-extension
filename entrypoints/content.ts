@@ -16,7 +16,12 @@ export default defineContentScript({
 
 function injectFloatingButton(): void {
   let btn: HTMLButtonElement | null = null;
-  document.addEventListener("mouseup", () => {
+  document.addEventListener("mouseup", (event) => {
+    // Mouseup on the button itself fires before its `click` listener. If we
+    // recreate the button here, the click handler bound to the old node is
+    // discarded and the user's click does nothing. Bail out when the event
+    // target is our own injected button.
+    if (event.target instanceof Node && btn?.contains(event.target)) return;
     const sel = window.getSelection()?.toString().trim();
     if (!sel || sel.length < 5) {
       btn?.remove();
