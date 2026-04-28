@@ -91,10 +91,19 @@ describe("memory-client mock", () => {
     vi.doMock("@ledgermem/memory", () => ({
       LedgerMem: vi.fn(() => ({ add: fakeAdd, search: vi.fn() })),
     }));
+    // loadSettings reads `chrome.storage.local` first and falls back to
+    // `chrome.storage.sync` only when local is empty. Mocking only `sync`
+    // crashed the test with "Cannot read properties of undefined (reading
+    // 'get')" the moment loadSettings ran — provide both surfaces.
     (globalThis as unknown as { chrome: unknown }).chrome = {
       storage: {
-        sync: {
+        local: {
           get: vi.fn(async () => ({ apiKey: "k", workspaceId: "w" })),
+          set: vi.fn(async () => undefined),
+        },
+        sync: {
+          get: vi.fn(async () => ({})),
+          remove: vi.fn(async () => undefined),
         },
       },
     };

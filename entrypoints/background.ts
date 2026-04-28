@@ -13,8 +13,10 @@ function isUnscriptableUrl(url: string): boolean {
   return (
     url.startsWith("chrome://") ||
     url.startsWith("chrome-extension://") ||
+    url.startsWith("arc://") ||
     url.startsWith("edge://") ||
     url.startsWith("about:") ||
+    url.startsWith("data:") ||
     url.startsWith("view-source:") ||
     url.startsWith("https://chrome.google.com/webstore")
   );
