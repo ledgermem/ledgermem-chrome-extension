@@ -74,9 +74,9 @@ function App(): JSX.Element {
           <li key={r.id ?? i} style={{ marginBottom: 8 }}>
             <div style={{ fontSize: 13 }}>{(r.content ?? "").slice(0, 200)}</div>
             <a
-              href={String(r.metadata?.url ?? "#")}
+              href={safeHref(r.metadata?.url)}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer noopener"
               style={{ fontSize: 11 }}
             >
               {String(r.metadata?.title ?? r.metadata?.url ?? "")}
@@ -86,6 +86,20 @@ function App(): JSX.Element {
       </ul>
     </div>
   );
+}
+
+// Allowlist link schemes to prevent javascript:/data: XSS via untrusted metadata.url values.
+function safeHref(raw: unknown): string {
+  if (typeof raw !== "string" || raw.length === 0) return "#";
+  try {
+    const parsed = new URL(raw);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return parsed.toString();
+    }
+    return "#";
+  } catch {
+    return "#";
+  }
 }
 
 const container = document.getElementById("root");

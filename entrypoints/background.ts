@@ -9,17 +9,36 @@ interface CapturePayload {
   extras?: Record<string, unknown>;
 }
 
+function isUnscriptableUrl(url: string): boolean {
+  return (
+    url.startsWith("chrome://") ||
+    url.startsWith("chrome-extension://") ||
+    url.startsWith("edge://") ||
+    url.startsWith("about:") ||
+    url.startsWith("view-source:") ||
+    url.startsWith("https://chrome.google.com/webstore")
+  );
+}
+
 async function runCapture(tabId: number, source: string): Promise<void> {
   const tab = await chrome.tabs.get(tabId);
   if (!tab.url || !tab.title) return;
-  const [{ result }] = await chrome.scripting.executeScript({
-    target: { tabId },
-    func: () => {
-      const sel = window.getSelection()?.toString() ?? "";
-      return sel.length > 0 ? sel : document.body.innerText.slice(0, 12000);
-    },
-  });
-  const text = typeof result === "string" ? result : "";
+  if (isUnscriptableUrl(tab.url)) return;
+  let text = "";
+  try {
+    const [{ result }] = await chrome.scripting.executeScript({
+      target: { tabId },
+      func: () => {
+        const sel = window.getSelection()?.toString() ?? "";
+        return sel.length > 0 ? sel : document.body.innerText.slice(0, 12000);
+      },
+    });
+    text = typeof result === "string" ? result : "";
+  } catch {
+    // Some pages (e.g. file://, restricted schemes) reject script injection.
+    // Fall back to URL+title only rather than crashing the listener.
+    text = "";
+  }
   await ingest(`${tab.title}\n\n${tab.url}\n\n${text}`, {
     source,
     url: tab.url,
@@ -49,6 +68,10 @@ export default defineBackground(() => {
   });
 
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+    // Only accept messages from this extension's own contexts (content script,
+    // popup, side panel). Reject anything coming from other extensions or
+    // arbitrary web pages even if the manifest changes later.
+    if (sender.id !== chrome.runtime.id) return false;
     if (msg?.type === "capture" && sender.tab?.id !== undefined) {
       const payload = msg.payload as CapturePayload;
       void (async () => {
