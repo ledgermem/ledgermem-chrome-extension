@@ -54,7 +54,7 @@ export default defineBackground(() => {
   chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
       id: "save-to-memory",
-      title: "Save to LedgerMem",
+      title: "Save to Mnemo",
       contexts: ["selection", "page"],
     });
   });

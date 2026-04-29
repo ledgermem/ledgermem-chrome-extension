@@ -24,7 +24,7 @@ function App(): JSX.Element {
 
   return (
     <div style={{ maxWidth: 480, padding: 24, fontFamily: "system-ui" }}>
-      <h1>LedgerMem — Options</h1>
+      <h1>Mnemo — Options</h1>
       <label style={{ display: "block", marginBottom: 12 }}>
         API key
         <input

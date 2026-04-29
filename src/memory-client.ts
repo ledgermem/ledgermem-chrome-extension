@@ -1,4 +1,4 @@
-import { LedgerMem } from "@ledgermem/memory";
+import { Mnemo } from "@getmnemo/memory";
 import { loadSettings } from "./settings.js";
 
 export interface CaptureMetadata {
@@ -10,12 +10,12 @@ export interface CaptureMetadata {
   [extra: string]: unknown;
 }
 
-export async function getMemoryOrThrow(): Promise<LedgerMem> {
+export async function getMemoryOrThrow(): Promise<Mnemo> {
   const settings = await loadSettings();
   if (!settings.apiKey || !settings.workspaceId) {
-    throw new Error("LedgerMem not configured. Open Options to set credentials.");
+    throw new Error("Mnemo not configured. Open Options to set credentials.");
   }
-  return new LedgerMem({
+  return new Mnemo({
     apiKey: settings.apiKey,
     workspaceId: settings.workspaceId || settings.defaultWorkspaceId,
   });

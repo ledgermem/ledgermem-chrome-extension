@@ -86,10 +86,10 @@ describe("memory-client mock", () => {
     expect(domainOf("not a url")).toBe("");
   });
 
-  it("ingest forwards to LedgerMem.add when configured (mocked)", async () => {
+  it("ingest forwards to Mnemo.add when configured (mocked)", async () => {
     const fakeAdd = vi.fn(async () => undefined);
-    vi.doMock("@ledgermem/memory", () => ({
-      LedgerMem: vi.fn(() => ({ add: fakeAdd, search: vi.fn() })),
+    vi.doMock("@getmnemo/memory", () => ({
+      Mnemo: vi.fn(() => ({ add: fakeAdd, search: vi.fn() })),
     }));
     // loadSettings reads `chrome.storage.local` first and falls back to
     // `chrome.storage.sync` only when local is empty. Mocking only `sync`

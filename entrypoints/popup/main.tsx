@@ -36,7 +36,7 @@ function App(): JSX.Element {
 
   return (
     <div style={{ width: 280, padding: 12, fontFamily: "system-ui" }}>
-      <h2 style={{ margin: "0 0 8px" }}>LedgerMem</h2>
+      <h2 style={{ margin: "0 0 8px" }}>Mnemo</h2>
       <button onClick={saveCurrent} style={{ width: "100%", marginBottom: 6 }}>
         Save current page
       </button>

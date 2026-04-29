@@ -2,9 +2,9 @@ import { defineConfig } from "wxt";
 
 export default defineConfig({
   manifest: {
-    name: "LedgerMem",
+    name: "Mnemo",
     description:
-      "Save pages, selections, YouTube transcripts, X threads, and Reddit posts to LedgerMem.",
+      "Save pages, selections, YouTube transcripts, X threads, and Reddit posts to Mnemo.",
     version: "0.1.0",
     permissions: ["storage", "tabs", "activeTab", "scripting", "sidePanel", "contextMenus"],
     // Restrict to web schemes only — `<all_urls>` would also grant file:// and ftp://
@@ -20,10 +20,10 @@ export default defineConfig({
     commands: {
       "save-selection": {
         suggested_key: { default: "Ctrl+Shift+L", mac: "Command+Shift+L" },
-        description: "Save current selection (or full page) to LedgerMem",
+        description: "Save current selection (or full page) to Mnemo",
       },
     },
-    action: { default_title: "LedgerMem" },
+    action: { default_title: "Mnemo" },
   },
   srcDir: ".",
 });
