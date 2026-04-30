@@ -1,4 +1,4 @@
-import { Mnemo } from "@getmnemo/memory";
+import { Mnemo } from "@mnemo/memory";
 import { loadSettings } from "./settings.js";
 
 export interface CaptureMetadata {

@@ -88,7 +88,7 @@ describe("memory-client mock", () => {
 
   it("ingest forwards to Mnemo.add when configured (mocked)", async () => {
     const fakeAdd = vi.fn(async () => undefined);
-    vi.doMock("@getmnemo/memory", () => ({
+    vi.doMock("@mnemo/memory", () => ({
       Mnemo: vi.fn(() => ({ add: fakeAdd, search: vi.fn() })),
     }));
     // loadSettings reads `chrome.storage.local` first and falls back to

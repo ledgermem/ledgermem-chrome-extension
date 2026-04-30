@@ -1,5 +1,5 @@
 {
-  "name": "@getmnemo/chrome-extension",
+  "name": "@mnemo/chrome-extension",
   "version": "0.1.0",
   "description": "Mnemo cross-browser MV3 extension — capture pages, selections, YouTube transcripts, Twitter threads, Reddit posts.",
   "type": "module",
@@ -16,7 +16,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@getmnemo/memory": "^0.1.0",
+    "@mnemo/memory": "^0.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zustand": "^5.0.0"
